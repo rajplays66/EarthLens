@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarthLens — See. Understand. Protect.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#061a22;        /* near-black abyssal navy */
+    --ocean:#0a3142;       /* deep ocean */
+    --teal:#0e4a52;        /* mid teal */
+    --surf:#1b7a72;        /* teal-green surf */
+    --emerald:#22b573;     /* signature accent, matches logo */
+    --emerald-bright:#3ddb8f;
+    --foam:#eef6f1;        /* light section bg */
+    --paper:#f7faf8;
+    --ink:#0a1812;
+    --ink-soft:#3c5048;
+    --line: rgba(255,255,255,0.14);
+    --line-dark: rgba(10,24,18,0.1);
+    --shadow: 0 18px 50px -18px rgba(2,18,14,0.45);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+
+  .display{
+    font-family:'Archivo Black', sans-serif;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    font-size:12.5px;
+  }
+
+  .wrap{
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 40px;
+  }
+
+  /* ===================== HERO + NAV ===================== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 18% 18%, rgba(255,236,189,0.18), transparent 60%),
+      linear-gradient(180deg, #07151c 0%, #0a2530 22%, #0c3744 42%, #0e4350 58%, var(--surf) 78%, #0a5c52 100%);
+    color:#fff;
+  }
+
+  /* drifting cloud / atmosphere layer */
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(620px 320px at 12% 10%, rgba(255,255,255,0.10), transparent 70%),
+      radial-gradient(500px 260px at 70% 4%, rgba(255,255,255,0.06), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* mountain / ridge silhouette */
+  .hero .ridge{
+    position:absolute;
+    left:0; right:0; bottom:30%;
+    height:46%;
+    pointer-events:none;
+  }
+  .hero .ridge svg{width:100%; height:100%; display:block;}
+
+  /* waterline */
+  .hero .waterline{
+    position:absolute; left:0; right:0; bottom:30%;
+    height:2px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+    box-shadow:0 0 24px 4px rgba(255,255,255,0.25);
+  }
+
+  nav.topnav{
+    position:relative;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:26px 0 0;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand .mark{
+    width:42px; height:42px;
+    flex-shrink:0;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+  }
+  .brand .mark svg{width:100%; height:100%; display:block;}
+  .brand .word{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.01em;
+    line-height:1;
+  }
+  .brand .word span{color:var(--emerald-bright);}
+  .brand .tag{
+    font-size:9.5px;
+    letter-spacing:0.22em;
+    color:rgba(255,255,255,0.55);
+    margin-top:3px;
+  }
+
+  .navlinks{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  .navlinks a{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.88);
+    position:relative;
+    padding-bottom:4px;
+  }
+  .navlinks a::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0;
+    height:2px; background:var(--emerald-bright);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .25s ease;
+  }
+  .navlinks a:hover::after{transform:scaleX(1);}
+
+  .nav-actions{display:flex; align-items:center; gap:18px;}
+  .btn-join{
+    font-family:'Oswald', sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#06241a;
+    background:linear-gradient(180deg, var(--emerald-bright), var(--emerald));
+    padding:11px 24px;
+    border-radius:999px;
+    box-shadow:0 8px 20px -6px rgba(34,181,115,0.55);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-join:hover{transform:translateY(-1px); box-shadow:0 10px 24px -6px rgba(34,181,115,0.7);}
+  .burger{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.3);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .burger span{display:block; width:14px; height:1.4px; background:#fff; position:relative;}
+  .burger span::before, .burger span::after{
+    content:""; position:absolute; left:0; width:14px; height:1.4px; background:#fff;
+  }
+  .burger span::before{top:-4px;} .burger span::after{top:4px;}
+
+  .hero-content{
+    position:relative; z-index:20;
+    padding-top:9vh;
+    max-width:680px;
+  }
+  .hero-content .accent-rule{
+    width:54px; height:4px; background:var(--emerald-bright);
+    margin:22px 0 24px; border-radius:2px;
+  }
+  .hero-content h1{
+    font-size:clamp(34px, 5.4vw, 60px);
+    line-height:1.05;
+    text-transform:uppercase;
+  }
+  .hero-content h1 .l2{ color:var(--emerald-bright); display:block; }
+  .hero-content p{
+    font-size:17px;
+    line-height:1.6;
+    color:rgba(255,255,255,0.82);
+    max-width:430px;
+    margin-top:4px;
+  }
+  .hero-search{
+    margin-top:34px;
+    display:flex;
+    align-items:center;
+    gap:0;
+    max-width:430px;
+    background:rgba(8,28,28,0.5);
+    border:1px solid rgba(255,255,255,0.25);
+    backdrop-filter:blur(6px);
+    border-radius:999px;
+    padding:6px 6px 6px 20px;
+  }
+  .hero-search input{
+    flex:1; background:none; border:none; outline:none;
+    color:#fff; font-size:14.5px; font-family:'Inter', sans-serif;
+  }
+  .hero-search input::placeholder{color:rgba(255,255,255,0.55);}
+  .hero-search button{
+    background:var(--emerald);
+    color:#062017;
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:11px 22px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  /* floating creature + turbines + factory, abstracted */
+  .scene-layer{position:absolute; inset:0; z-index:5; pointer-events:none;}
+  .turbine{position:absolute; bottom:31%; opacity:0.9;}
+  .turbine svg{display:block;}
+  .bird{position:absolute; opacity:0.55;}
+
+  .turtle{
+    position:absolute; right:6%; bottom:26%;
+    width:230px;
+    animation:bob 7s ease-in-out infinite;
+    opacity:0.96;
+    z-index:21;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-10px) rotate(-1.5deg); }
+  }
+
+  /* category strip across the waterline */
+  .category-strip{
+    position:absolute;
+    left:0; right:0;
+    bottom:7%;
+    z-index:25;
+  }
+  .category-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:18px;
+  }
+  .cat-item{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .cat-item .icon{
+    width:42px; height:42px;
+    border-radius:50%;
+    background:rgba(11,46,46,0.55);
+    border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cat-item .icon svg{width:20px; height:20px;}
+  .cat-item h4{
+    font-family:'Oswald', sans-serif;
+    font-size:13px;
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  .cat-item p{
+    font-size:12.5px;
+    line-height:1.45;
+    color:rgba(255,255,255,0.68);
+    max-width:170px;
+  }
+
+  /* underwater floor */
+  .seafloor{
+    position:absolute; left:0; right:0; bottom:0; height:30%;
+    background:linear-gradient(180deg, transparent, rgba(2,10,8,0.55) 70%, rgba(2,10,8,0.78));
+  }
+  .coral-edge{
+    position:absolute; left:0; bottom:0; width:260px; opacity:0.85;
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+    z-index:30; display:flex; flex-direction:column; align-items:center; gap:6px;
+    color:rgba(255,255,255,0.6); font-size:10.5px; letter-spacing:0.18em;
+    font-family:'Oswald', sans-serif;
+  }
+  .scroll-cue .dot{width:6px; height:6px; border-radius:50%; background:var(--emerald-bright); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:0.3} 50%{opacity:1}}
+
+  /* ===================== TICKER ===================== */
+  .ticker{
+    background:var(--ink);
+    color:var(--foam);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .ticker-inner{
+    display:flex; align-items:center; gap:28px;
+    padding:11px 0;
+    overflow:hidden;
+  }
+  .ticker-tag{
+    flex-shrink:0;
+    font-family:'Oswald', sans-serif;
+    font-size:11px; font-weight:700; letter-spacing:0.14em;
+    text-transform:uppercase;
+    background:var(--emerald);
+    color:#06241a;
+    padding:4px 12px;
+    border-radius:4px;
+  }
+  .ticker-track{
+    display:flex; gap:48px;
+    white-space:nowrap;
+    animation:scroll 28s linear infinite;
+  }
+  .ticker-track span{font-size:13px; color:rgba(238,246,241,0.78);}
+  .ticker-track span b{color:var(--foam); font-weight:600;}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ===================== MAIN SECTION ===================== */
+  .section{
+    padding:88px 0;
+  }
+  .section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:48px;
+    flex-wrap:wrap;
+  }
+  .section-head .eyebrow{color:var(--surf);}
+  .section-head h2{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:clamp(26px, 3.2vw, 38px);
+    color:var(--ink);
+    margin-top:8px;
+    text-transform:uppercase;
+    letter-spacing:0.005em;
+  }
+  .section-head h2 em{
+    font-style:normal;
+    color:var(--surf);
+  }
+  .section-head .desc{
+    max-width:340px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    padding-bottom:4px;
+  }
+
+  .filter-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:40px;
+  }
+  .filter-pill{
+    font-family:'Oswald', sans-serif;
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line-dark);
+    color:var(--ink-soft);
+    transition:all .2s ease;
+  }
+  .filter-pill.active, .filter-pill:hover{
+    background:var(--ink);
+    color:var(--foam);
+    border-color:var(--ink);
+  }
+
+  /* Article grid — two columns, repeating, like a stacked feed */
+  .article-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px 32px;
+  }
+  .article-card{
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid var(--line-dark);
+    box-shadow:var(--shadow);
+    transition:transform .28s ease, box-shadow .28s ease;
+  }
+  .article-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 26px 60px -20px rgba(2,18,14,0.32);
+  }
+  .article-card .thumb{
+    position:relative;
+    aspect-ratio:16/9;
+    width:100%;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .article-card .thumb::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 45%, rgba(4,16,12,0.55));
+  }
+  .thumb-placeholder-icon{
+    position:relative; z-index:2;
+    margin:auto;
+    opacity:0.85;
+  }
+  .thumb-tag{
+    position:relative; z-index:2;
+    margin:14px;
+    font-family:'Oswald', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#06241a;
+    background:var(--emerald-bright);
+    padding:5px 12px;
+    border-radius:999px;
+  }
+  .article-card .body{
+    padding:22px 24px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .article-card .meta{
+    font-size:12px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .article-card .meta .dot{width:3px; height:3px; background:var(--ink-soft); border-radius:50%;}
+  .article-card h3{
+    font-family:'Oswald', sans-serif;
+    font-size:19px;
+    line-height:1.3;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .article-card p.excerpt{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .article-card .footer-row{
+    margin-top:auto;
+    padding-top:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top:1px solid var(--line-dark);
+  }
+  .author{
+    display:flex; align-items:center; gap:9px;
+    font-size:12.5px; font-weight:600; color:var(--ink);
+  }
+  .author .avatar{
+    width:26px; height:26px; border-radius:50%;
+    background:linear-gradient(135deg, var(--surf), var(--emerald));
+  }
+  .read-link{
+    font-family:'Oswald', sans-serif;
+    font-size:12px; font-weight:600; letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--surf);
+    display:flex; align-items:center; gap:5px;
+  }
+
+  /* featured-wide variant every 6 cards to break rhythm */
+  .article-card.wide{
+    grid-column:1 / -1;
+    flex-direction:row;
+  }
+  .article-card.wide .thumb{
+    width:46%;
+    aspect-ratio:auto;
+  }
+  .article-card.wide .body{
+    width:54%;
+    justify-content:center;
+  }
+  .article-card.wide h3{font-size:24px;}
+
+  .load-more-wrap{
+    display:flex; justify-content:center;
+    margin-top:56px;
+  }
+  .btn-outline{
+    font-family:'Oswald', sans-serif;
+    font-size:13px; font-weight:600; letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:14px 36px;
+    border:1.5px solid var(--ink);
+    border-radius:999px;
+    color:var(--ink);
+    display:inline-flex; align-items:center; gap:10px;
+    transition:all .2s ease;
+  }
+  .btn-outline:hover{background:var(--ink); color:var(--foam);}
+
+  /* ===================== STAT BAND ===================== */
+  .stat-band{
+    background:var(--ink);
+    color:var(--foam);
+    padding:64px 0;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:32px;
+  }
+  .stat-grid .stat h3{
+    font-family:'Archivo Black', sans-serif;
+    font-size:40px;
+    color:var(--emerald-bright);
+  }
+  .stat-grid .stat p{
+    font-size:13px;
+    color:rgba(238,246,241,0.65);
+    margin-top:6px;
+    line-height:1.5;
+  }
+
+  /* ===================== NEWSLETTER ===================== */
+  .newsletter{
+    background:linear-gradient(120deg, var(--ocean), var(--teal) 60%, var(--surf));
+    color:#fff;
+    border-radius:24px;
+    margin:0 40px;
+    padding:64px 56px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+  }
+  .newsletter h2{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:30px;
+    text-transform:uppercase;
+    max-width:420px;
+  }
+  .newsletter p{
+    color:rgba(255,255,255,0.78);
+    margin-top:10px; font-size:14.5px; max-width:420px;
+  }
+  .newsletter-form{
+    display:flex; gap:0;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius:999px;
+    padding:6px 6px 6px 22px;
+    min-width:380px;
+  }
+  .newsletter-form input{
+    flex:1; background:none; border:none; outline:none;
+    color:#fff; font-size:14px;
+  }
+  .newsletter-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .newsletter-form button{
+    background:var(--emerald-bright);
+    color:#06241a; font-family:'Oswald',sans-serif; font-weight:700;
+    font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:12px 24px; border-radius:999px;
+  }
+
+  /* ===================== FOOTER ===================== */
+  footer{
+    background:var(--deep);
+    color:rgba(238,246,241,0.7);
+    margin-top:88px;
+    padding:72px 0 28px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;
+    gap:32px;
+    padding-bottom:48px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .footer-grid h5{
+    font-family:'Oswald', sans-serif;
+    font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--foam); margin-bottom:18px;
+  }
+  .footer-grid ul li{margin-bottom:11px; font-size:13.5px;}
+  .footer-grid ul li a:hover{color:var(--emerald-bright);}
+  .footer-bottom{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:24px; font-size:12.5px; flex-wrap:wrap; gap:12px;
+    color:rgba(238,246,241,0.45);
+  }
+  .footer-bottom .social{display:flex; gap:14px;}
+  .footer-bottom .social a{
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width:980px){
+    .wrap{padding:0 22px;}
+    .navlinks{display:none;}
+    .hero{min-height:auto; padding-bottom:48px;}
+    .hero-content{padding-top:34px;}
+    .hero-content p{max-width:none;}
+    .hero-search{max-width:none;}
+    .ridge, .waterline, .seafloor{display:none;}
+    .category-strip{
+      position:static;
+      margin-top:48px;
+    }
+    .category-grid{grid-template-columns:repeat(2, 1fr); gap:28px 18px;}
+    .article-grid{grid-template-columns:1fr;}
+    .article-card.wide{flex-direction:column;}
+    .article-card.wide .thumb, .article-card.wide .body{width:100%;}
+    .stat-grid{grid-template-columns:1fr 1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .newsletter{margin:0 18px; padding:40px 28px; flex-direction:column; align-items:flex-start;}
+    .newsletter-form{min-width:0; width:100%;}
+    .turtle, .turbine, .bird{display:none;}
+    .scroll-cue{display:none;}
+  }
+  @media (max-width:560px){
+    .category-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr;}
+    .stat-grid{grid-template-columns:1fr;}
+  }
+
+  :focus-visible{outline:2px solid var(--emerald-bright); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="ridge">
+    <svg viewBox="0 0 1280 300" preserveAspectRatio="none">
+      <polygon points="0,300 0,160 140,60 260,140 420,30 560,120 700,40 860,150 1000,70 1140,160 1280,90 1280,300" fill="#123c34" opacity="0.55"/>
+      <polygon points="0,300 0,200 180,110 340,190 520,90 680,180 860,100 1040,200 1280,140 1280,300" fill="#0c2b27" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="waterline"></div>
+
+  <div class="scene-layer">
+    <div class="turbine" style="left:58%; bottom:31%; width:60px;">
+      <svg viewBox="0 0 60 140" width="60" height="140"><line x1="30" y1="140" x2="30" y2="40" stroke="#fff" stroke-width="2" opacity="0.85"/><circle cx="30" cy="40" r="3" fill="#fff"/><line x1="30" y1="40" x2="10" y2="20" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="50" y2="22" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="34" y2="62" stroke="#fff" stroke-width="2"/></svg>
+    </div>
+    <div class="turbine" style="left:64%; bottom:33%; width:46px;">
+      <svg viewBox="0 0 60 140" width="46" height="108"><line x1="30" y1="140" x2="30" y2="40" stroke="#fff" stroke-width="2" opacity="0.7"/><circle cx="30" cy="40" r="3" fill="#fff"/><line x1="30" y1="40" x2="12" y2="24" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="48" y2="24" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="33" y2="60" stroke="#fff" stroke-width="2"/></svg>
+    </div>
+    <div class="turbine" style="left:70%; bottom:32%; width:38px;">
+      <svg viewBox="0 0 60 140" width="38" height="90"><line x1="30" y1="140" x2="30" y2="40" stroke="#fff" stroke-width="2" opacity="0.6"/><circle cx="30" cy="40" r="3" fill="#fff"/><line x1="30" y1="40" x2="14" y2="26" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="46" y2="26" stroke="#fff" stroke-width="2"/><line x1="30" y1="40" x2="32" y2="58" stroke="#fff" stroke-width="2"/></svg>
+    </div>
+    <div class="bird" style="left:48%; top:18%; width:26px;">
+      <svg viewBox="0 0 40 20" width="26"><path d="M0,12 Q10,0 20,12 Q30,0 40,12" stroke="#fff" stroke-width="2" fill="none"/></svg>
+    </div>
+    <div class="bird" style="left:52%; top:24%; width:18px;">
+      <svg viewBox="0 0 40 20" width="18"><path d="M0,12 Q10,0 20,12 Q30,0 40,12" stroke="#fff" stroke-width="2" fill="none"/></svg>
+    </div>
+  </div>
+
+  <svg class="turtle" viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="130" cy="80" rx="78" ry="44" fill="#3a6b4a"/>
+    <ellipse cx="130" cy="80" rx="78" ry="44" fill="none" stroke="#2a4f37" stroke-width="3"/>
+    <path d="M70,60 L100,50 L120,65 L150,50 L185,65 L195,90 L150,108 L100,108 L60,92 Z" fill="#4a7d56" opacity="0.6"/>
+    <ellipse cx="42" cy="64" rx="22" ry="16" fill="#5a8a63" transform="rotate(-18 42 64)"/>
+    <circle cx="30" cy="58" r="3" fill="#0a1812"/>
+    <path d="M58,100 Q40,118 20,116" stroke="#3a6b4a" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M190,100 Q210,118 228,108" stroke="#3a6b4a" stroke-width="12" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <div class="seafloor"></div>
+
+  <div class="wrap" style="position:relative;">
+    <nav class="topnav">
+      <a href="#" class="brand">
+        <span class="mark">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="oceanG" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#3fb8e0"/>
+                <stop offset="55%" stop-color="#1f7fb8"/>
+                <stop offset="100%" stop-color="#0d3f63"/>
+              </radialGradient>
+            </defs>
+            <circle cx="24" cy="24" r="22" fill="url(#oceanG)"/>
+            <path d="M8,18 C12,14 18,15 20,19 C22,22 19,25 22,27 C25,29 24,34 19,35 C14,36 9,32 8,27 Z" fill="#2fae6e"/>
+            <path d="M30,10 C35,9 40,13 39,18 C38,22 33,21 31,24 C29,27 33,30 30,33 C27,36 22,33 24,29 C26,25 22,24 24,20 C26,16 25,11 30,10 Z" fill="#3ddb8f"/>
+            <circle cx="24" cy="24" r="22" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          </svg>
+        </span>
+        <span>
+          <span class="word">Earth<span>Lens</span></span>
+          <div class="tag">See. Understand. Protect.</div>
+        </span>
+      </a>
+      <ul class="navlinks">
+        <li><a href="#oceans">Oceans</a></li>
+        <li><a href="#climate">Climate</a></li>
+        <li><a href="#wildlife">Wildlife</a></li>
+        <li><a href="#sustainability">Sustainability</a></li>
+        <li><a href="#environment">Environment</a></li>
+        <li><a href="#news">News</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-join">Join the Mission</button>
+        <button class="burger" aria-label="Open menu"><span></span></button>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <p class="eyebrow" style="color:var(--emerald-bright);">Independent environmental journalism</p>
+      <h1 class="display">A CLEAR PERSPECTIVE.<span class="l2">A BETTER FUTURE.</span></h1>
+      <div class="accent-rule"></div>
+      <p>In-depth stories. Real science. Global voices. Uniting knowledge and action for a healthier planet.</p>
+
+      <form class="hero-search" role="search">
+        <input type="search" placeholder="Search articles — try “ocean plastic” or “rewilding”">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="category-strip">
+      <div class="category-grid">
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M2 17c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0"/><path d="M2 12c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0"/></svg></div>
+          <h4>Oceans</h4>
+          <p>Exploring the deep, protecting what keeps us alive.</p>
+        </div>
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M14 4v10.5a3.5 3.5 0 1 1-4 0V4a2 2 0 1 1 4 0z"/></svg></div>
+          <h4>Climate</h4>
+          <p>Understanding change. Building a resilient tomorrow.</p>
+        </div>
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M5 20l3-7 4 3 4-9 3 13"/></svg></div>
+          <h4>Wildlife</h4>
+          <p>Every species matters. Every habitat counts.</p>
+        </div>
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M7 7h10l-3-3M17 17H7l3 3M4 12a8 8 0 0 1 13-6M20 12a8 8 0 0 1-13 6"/></svg></div>
+          <h4>Sustainability</h4>
+          <p>Smarter choices. Stronger communities.</p>
+        </div>
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M12 2C8 6 5 10 5 14a7 7 0 0 0 14 0c0-4-3-8-7-12z"/></svg></div>
+          <h4>Environment</h4>
+          <p>Protecting air, land, and water for generations.</p>
+        </div>
+        <div class="cat-item">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddb8f" stroke-width="2"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div>
+          <h4>News &amp; Reports</h4>
+          <p>Reliable updates. Stories that drive change.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue"><span>SCROLL</span><span class="dot"></span></div>
+  </div>
+</header>
+
+<!-- ===================== HEADLINE TICKER ===================== -->
+<div class="ticker">
+  <div class="wrap">
+    <div class="ticker-inner">
+      <span class="ticker-tag">Live</span>
+      <div class="ticker-track">
+        <span><b>Coral bleaching</b> hits record extent across the Pacific</span>
+        <span><b>Arctic sea ice</b> volume drops to second-lowest on record</span>
+        <span><b>Deep-sea mining</b> moratorium gains five more nations</span>
+        <span><b>Reforestation</b> project restores 40,000 hectares in Borneo</span>
+        <span><b>Coral bleaching</b> hits record extent across the Pacific</span>
+        <span><b>Arctic sea ice</b> volume drops to second-lowest on record</span>
+        <span><b>Deep-sea mining</b> moratorium gains five more nations</span>
+        <span><b>Reforestation</b> project restores 40,000 hectares in Borneo</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LATEST ARTICLES ===================== -->
+<main>
+  <section class="section" id="articles">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The Latest</p>
+          <h2>Stories worth your <em>attention</em></h2>
+        </div>
+        <p class="desc">Two new articles, side by side, added every week — replace the thumbnails and copy below with your own reporting.</p>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-pill active">All</button>
+        <button class="filter-pill">Oceans</button>
+        <button class="filter-pill">Climate</button>
+        <button class="filter-pill">Wildlife</button>
+        <button class="filter-pill">Sustainability</button>
+        <button class="filter-pill">Environment</button>
+        <button class="filter-pill">News</button>
+      </div>
+
+      <div class="article-grid" id="articleGrid">
+        <!-- Card 1 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#0a3142,#1b7a72);">
+            <span class="thumb-tag">Oceans</span>
+          </div>
+          <div class="body">
+            <div class="meta">Oceans <span class="dot"></span> 6 min read <span class="dot"></span> Jun 24</div>
+            <h3>The quiet collapse of the world's coral reefs</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#13505f,#22b573);">
+            <span class="thumb-tag">Climate</span>
+          </div>
+          <div class="body">
+            <div class="meta">Climate <span class="dot"></span> 8 min read <span class="dot"></span> Jun 22</div>
+            <h3>Inside the race to map melting permafrost</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#0e4a52,#3a6b4a);">
+            <span class="thumb-tag">Wildlife</span>
+          </div>
+          <div class="body">
+            <div class="meta">Wildlife <span class="dot"></span> 5 min read <span class="dot"></span> Jun 19</div>
+            <h3>How sea turtles are adapting to plastic-choked coastlines</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#0a3142,#0e4a52);">
+            <span class="thumb-tag">Sustainability</span>
+          </div>
+          <div class="body">
+            <div class="meta">Sustainability <span class="dot"></span> 7 min read <span class="dot"></span> Jun 17</div>
+            <h3>Inside the city built without a single landfill</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Wide featured card -->
+        <article class="article-card wide">
+          <div class="thumb" style="background:linear-gradient(135deg,#061a22,#1b7a72);">
+            <span class="thumb-tag">Environment</span>
+          </div>
+          <div class="body">
+            <div class="meta">Environment <span class="dot"></span> 11 min read <span class="dot"></span> Jun 15</div>
+            <h3>What 30 years of satellite data tell us about deforestation</h3>
+            <p class="excerpt">A long-form investigation — use the wide card format for your flagship features. Replace this excerpt with your real summary.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#22b573,#0a3142);">
+            <span class="thumb-tag">News</span>
+          </div>
+          <div class="body">
+            <div class="meta">News &amp; Reports <span class="dot"></span> 4 min read <span class="dot"></span> Jun 12</div>
+            <h3>Five nations sign the new high-seas treaty</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="article-card">
+          <div class="thumb" style="background:linear-gradient(135deg,#1b7a72,#3a6b4a);">
+            <span class="thumb-tag">Oceans</span>
+          </div>
+          <div class="body">
+            <div class="meta">Oceans <span class="dot"></span> 9 min read <span class="dot"></span> Jun 10</div>
+            <h3>The deep-sea mining gold rush nobody is watching</h3>
+            <p class="excerpt">Replace this excerpt with your article summary — two or three sentences that pull the reader in.</p>
+            <div class="footer-row">
+              <div class="author"><span class="avatar"></span> Author Name</div>
+              <a href="#" class="read-link">Read →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="load-more-wrap">
+        <button class="btn-outline">Load more stories ↓</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STAT BAND ===================== -->
+  <section class="stat-band">
+    <div class="wrap">
+      <div class="stat-grid">
+        <div class="stat"><h3>1,200+</h3><p>Articles published since launch</p></div>
+        <div class="stat"><h3>54</h3><p>Countries our contributors report from</p></div>
+        <div class="stat"><h3>8.3M</h3><p>Readers reached this year</p></div>
+        <div class="stat"><h3>120</h3><p>Scientists &amp; experts consulted</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NEWSLETTER ===================== -->
+  <section class="section" style="padding-bottom:0;">
+    <div class="newsletter">
+      <div>
+        <h2>Knowledge today. Action tomorrow.</h2>
+        <p>Get one honest, well-reported story in your inbox every Friday. No noise, no clickbait — just what's actually happening to the planet.</p>
+      </div>
+      <form class="newsletter-form">
+        <input type="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="brand" style="margin-bottom:14px; display:flex;">
+          <span class="mark" style="width:34px;height:34px;">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="oceanG2" cx="35%" cy="30%" r="75%">
+                  <stop offset="0%" stop-color="#3fb8e0"/>
+                  <stop offset="55%" stop-color="#1f7fb8"/>
+                  <stop offset="100%" stop-color="#0d3f63"/>
+                </radialGradient>
+              </defs>
+              <circle cx="24" cy="24" r="22" fill="url(#oceanG2)"/>
+              <path d="M8,18 C12,14 18,15 20,19 C22,22 19,25 22,27 C25,29 24,34 19,35 C14,36 9,32 8,27 Z" fill="#2fae6e"/>
+              <path d="M30,10 C35,9 40,13 39,18 C38,22 33,21 31,24 C29,27 33,30 30,33 C27,36 22,33 24,29 C26,25 22,24 24,20 C26,16 25,11 30,10 Z" fill="#3ddb8f"/>
+            </svg>
+          </span>
+          <span class="word" style="font-size:18px;">Earth<span>Lens</span></span>
+        </a>
+        <p style="font-size:13px; line-height:1.6; max-width:240px; color:rgba(238,246,241,0.55);">Independent journalism on the planet's most urgent stories — oceans, climate, wildlife, and the choices ahead of us.</p>
+      </div>
+      <div>
+        <h5>Sections</h5>
+        <ul><li><a href="#">Oceans</a></li><li><a href="#">Climate</a></li><li><a href="#">Wildlife</a></li><li><a href="#">Sustainability</a></li></ul>
+      </div>
+      <div>
+        <h5>More</h5>
+        <ul><li><a href="#">Environment</a></li><li><a href="#">News &amp; Reports</a></li><li><a href="#">Long-form</a></li><li><a href="#">Opinion</a></li></ul>
+      </div>
+      <div>
+        <h5>About</h5>
+        <ul><li><a href="#">Our mission</a></li><li><a href="#">Contributors</a></li><li><a href="#">Ethics policy</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <h5>Join the mission</h5>
+        <ul><li><a href="#">Become a member</a></li><li><a href="#">Submit a tip</a></li><li><a href="#">Newsletter</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EarthLens. All rights reserved.</span>
+      <div class="social">
+        <a href="#" aria-label="Twitter">𝕏</a>
+        <a href="#" aria-label="Instagram">◎</a>
+        <a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Sticky nav background on scroll
+  const heroEl = document.querySelector('.hero');
+  const nav = document.querySelector('.topnav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > heroEl.offsetHeight - 100) {
+      nav.style.position = 'fixed';
+      nav.style.top = '0'; nav.style.left='0'; nav.style.right='0';
+      nav.style.background = 'rgba(6,26,34,0.92)';
+      nav.style.backdropFilter = 'blur(10px)';
+      nav.style.padding = '16px 40px';
+      nav.style.zIndex = '100';
+    } else {
+      nav.style.position = 'relative';
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+      nav.style.padding = '26px 0 0';
+    }
+  });
+
+  // Filter pills (visual state only — wire to real data later)
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // Search submit (placeholder)
+  document.querySelectorAll('form').forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+</script>
+
+</body>
+</html>
